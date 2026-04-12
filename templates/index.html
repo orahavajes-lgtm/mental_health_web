@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mental Health Predictor</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card {
+    background: white;
+    width: 60%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    grid-column: span 2;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+select {
+    grid-column: span 2;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+button {
+    grid-column: span 2;
+    padding: 12px;
+    background: #00c6ff;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.result {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🧠 Mental Health AI Checker</h1>
+
+<form method="POST" action="/predict">
+
+<label>What is your gender?</label>
+<select name="Gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<label>What is your occupation?</label>
+<select name="Occupation">
+<option>Corporate</option>
+<option>Student</option>
+<option>Business</option>
+<option>Housewife</option>
+<option>Others</option>
+</select>
+
+<label>Are you self-employed?</label>
+<select name="self_employed">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<label>Do you have a family history of mental health issues?</label>
+<select name="family_history">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<label>How many days have you stayed indoors in the last two months?</label>
+<select name="Days_Indoors">
+<option>Go out Every day</option>
+<option>1-14 days</option>
+<option>15-30 days</option>
+<option>31-60 days</option>
+<option>More than 2 months</option>
+</select>
+
+<label>Have you been experiencing increasing stress recently?</label>
+<select name="Growing_Stress">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>Have your habits changed recently?</label>
+<select name="Changes_Habits">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>Do you have a history of mental health issues?</label>
+<select name="Mental_Health_History">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>How would you describe your mood swings?</label>
+<select name="Mood_Swings">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<label>Do you struggle to cope with daily challenges?</label>
+<select name="Coping_Struggles">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<label>Are you interested in your work or daily activities?</label>
+<select name="Work_Interest">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>Do you feel socially withdrawn?</label>
+<select name="Social_Weakness">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>Would you talk about mental health in a job interview?</label>
+<select name="mental_health_interview">
+<option>No</option>
+<option>Maybe</option>
+<option>Yes</option>
+</select>
+
+<label>Are you aware of mental health care options?</label>
+<select name="care_options">
+<option>No</option>
+<option>Not sure</option>
+<option>Yes</option>
+</select>
+
+<button type="submit">🔍 Check Now</button>
+
+</form>
+
+{% if prediction_text %}
+<div class="result">
+    {{ prediction_text }}
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>
