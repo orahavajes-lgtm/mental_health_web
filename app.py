@@ -4,13 +4,21 @@ import pickle
 
 app = Flask(__name__)
 
-# load model
-model = pickle.load(open("model.pkl", "rb"))
+# טעינת שני המודלים
+decision_tree_model = pickle.load(open("model.pkl", "rb"))
+from tensorflow.keras.models import load_model
+neural_network_model = load_model("nn_model.keras")
 
-# encoding
+# Encoding maps
 encoding_maps = {
     "Gender": {"Female": 0, "Male": 1},
-    "Occupation": {"Corporate": 0, "Student": 1, "Business": 2, "Housewife": 3, "Others": 4},
+    "Occupation": {
+        "Corporate": 0,
+        "Student": 1,
+        "Business": 2,
+        "Housewife": 3,
+        "Others": 4
+    },
     "self_employed": {"No": 0, "Yes": 1},
     "family_history": {"No": 0, "Yes": 1},
     "Growing_Stress": {"No": 0, "Maybe": 1, "Yes": 2},
@@ -42,6 +50,14 @@ def home():
 def predict():
     data = request.form
 
+    # בחירת המודל
+    selected_model = data["model_type"]
+
+    if selected_model == "Decision Tree":
+        model = decision_tree_model
+    else:
+        model = neural_network_model
+
     encoded = [
         encoding_maps["Gender"][data["Gender"]],
         encoding_maps["Occupation"][data["Occupation"]],
@@ -60,12 +76,13 @@ def predict():
     ]
 
     features = np.array(encoded).reshape(1, -1)
+
     prediction = model.predict(features)
 
     if prediction[0] == 1:
-        result = "⚠️ It is recommended to seek professional psychological support."
+        result = f"⚠️ Using {selected_model}: It is recommended to seek professional psychological support."
     else:
-        result = "✅ No immediate need for professional support was detected."
+        result = f"✅ Using {selected_model}: No immediate need for professional support was detected."
 
     return render_template("index.html", prediction_text=result)
 
